@@ -5,17 +5,19 @@ const bodyParse = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path')
 
+const authenticationRoute = require('./routes/AuthenticationRoute');
 const userRoute = require('./routes/UserRoute');
 const articleRoute = require('./routes/ArticleRoute');
 const commentRoute = require('./routes/CommentRoute');
 
 require('dotenv').config();
-mongoose.connect(process.env.DB_TEST,
-{   useNewUrlParser: true,
+
+mongoose.connect(process.env.DB_NAME,
+{  useNewUrlParser: true,
     useUnifiedTopology: true 
 })
 .then(() => console.log('Connexion à MongoDB réussie !'))
-.catch(() => console.log('Connexion à MongoDB échouée !'));
+.catch(() => console.log('Connexion à MongoDB échouée !')); 
 
 const app = express();
 
@@ -32,8 +34,9 @@ app.use(helmet())
 app.use(bodyParse.json());
 
 app.use('./images', express.static(path.join(__dirname,'images')));
-app.use('/api/auth', userRoute);
-app.use('/api/article', articleRoute);
-app.use('/api/comment',commentRoute);
+app.use('/api/', authenticationRoute);
+app.use('/api/auth/user', userRoute);
+//app.use('/api/article', articleRoute);
+//app.use('/api/comment',commentRoute);
 
 module.exports = app;
