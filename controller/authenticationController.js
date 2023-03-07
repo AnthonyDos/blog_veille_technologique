@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken'); 
+const fs = require('fs'); 
 const errorMessage = require('../config/errorMessage/errorMessage.js');
 const { REGEX_PASSWORD } = require('../config/regex/regex.js');
 const { ERROR_CODE } = require('../config/errorCode/errorCode.js');
@@ -8,25 +9,24 @@ require('dotenv').config();
 
 exports.singup = (req, res, next) => {
     
-    const { gender, firstName, lastName, email, password, photo, category, isAdmin } = req.body;
-    
+    const { gender, firstName, lastName, email, password, category } = req.body;
     if (!password.match(REGEX_PASSWORD)) {
         throw error = res.status(401).json(errorMessage.errorRegexPassword)
     }
  
-    bcrypt.hash(password, 10)
-    .then( hash => {
+    
+    console.log(req.file.filename)
+    bcrypt.hash(password, 10)   
+    .then( hash => {     
         const user = new User({
             gender: gender,
             firstName: firstName,
             lastName: lastName,
             email: email,
             password: hash,
-            photo: photo,
+            image: req.file.filename,
             category: category,
-            isAdmin: isAdmin
-            
-        })
+        });
         user.save()
         .then(()=> res.status(201).json({ 
             token: jwt.sign(
@@ -48,3 +48,4 @@ exports.singup = (req, res, next) => {
         res.status(500).json({ error: error, message: errorMessage.errorServer })
     })
 }
+

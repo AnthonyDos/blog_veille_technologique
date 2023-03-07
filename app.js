@@ -33,7 +33,7 @@ app.use(helmet())
 
 app.use(bodyParse.json());
 
-app.use('./images', express.static(path.join(__dirname,'images')));
+app.use('/images', express.static(path.join(__dirname,'images')));
 app.use('/api/', authenticationRoute);
 app.use('/api/auth/user', userRoute);
 //app.use('/api/article', articleRoute);
