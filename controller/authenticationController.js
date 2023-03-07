@@ -30,7 +30,7 @@ exports.singup = (req, res, next) => {
             token: jwt.sign(
                 { userId: user.id },
                 process.env.JWT_TOKEN,
-                { expiresIn: '24h' }
+                { expiresIn: process.env.EXPIRE_TOKEN }
             ),
             message: 'utilisateur créé!'
         }))
@@ -64,7 +64,7 @@ exports.login = (req, res, next) => {
                 token: jwt.sign (
                     { userId: user._id },
                     process.env.JWT_TOKEN,
-                    { expiresIn: '24h' }
+                    { expiresIn: process.env.EXPIRE_TOKEN }
                 )       
             })
         })
