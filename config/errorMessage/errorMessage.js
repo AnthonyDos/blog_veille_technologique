@@ -17,3 +17,4 @@ exports.errorNotAuthorized = " vous n'êtes pas autorisé!";
 
 //error article
 exports.errorCreateArticle = "erreur lors de la création de l'article";
+exports.errorFindOneArticle = "erreur lors de la récupération de l' article: "
