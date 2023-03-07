@@ -20,3 +20,4 @@ exports.errorCreateArticle = "erreur lors de la création de l'article";
 exports.errorFindOneArticle = "erreur lors de la récupération de l' article: ";
 exports.errorFindAllArticle = "erreur lors de la récupération des articles";
 exports.errorUpdateArticle = "erreur lors de la modification de l'article !";
+exports.errorDeleteArticle = "erreur lors de la suppression de l'article";

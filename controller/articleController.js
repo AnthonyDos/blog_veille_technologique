@@ -45,3 +45,9 @@ exports.updateArticle = ( req, res, next ) => {
     .then(()=> res.status(200).json({ message: "article modifié !"}))
     .catch(error => res.status(400).json({ error: error, message: errorMessage.errorUpdateArticle }))
 }
+
+exports.deleteArticle = ( req, res, next ) => {
+    Articles.deleteOne({ _id: req.params._id })
+    .then(() => res.status(200).json({ message: "article supprimé !"}))
+    .catch(error => res.status(400).json({ error: error, message: errorMessage.errorDeleteArticle }))
+}
