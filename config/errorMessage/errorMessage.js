@@ -14,3 +14,6 @@ exports.errorServer = "une erreur serveur s'est produite!";
 
 //authorization
 exports.errorNotAuthorized = " vous n'êtes pas autorisé!";
+
+//error article
+exports.errorCreateArticle = "erreur lors de la création de l'article";

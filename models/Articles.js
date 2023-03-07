@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
 const articleSchema = mongoose.Schema({
-    userId: { type: Number, required: true },
+    userId: { type: String, required: true },
     name: { type: String, required: true },
     content: { type: String, required: true },
-    imageUrl: { type: String, required: true },
+    image: { type: String, required: true },
     tag: { type: String, required: true},
-    likeCount: { type: Number, required: true },
+    likeCount: { type: Number, default: 0 },
 });
 
 module.exports = mongoose.model('post', articleSchema);
