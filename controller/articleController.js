@@ -62,3 +62,38 @@ exports.deleteArticle = ( req, res, next ) => {
     })
     .catch(error => res.status(500).json({ error: error, message: errorMessage.errorServer }))
 }
+
+exports.likeArticle = (req, res) => {
+    const id = req.params._id;
+    const userId = req.body.userId
+    Articles.findOne({ _id: id})
+    .then(article => {
+        switch (req.body.like) {
+            case 1:
+                Articles.updateOne({_id: id}, {$inc:{likes: +1} ,$push:{usersLiked: userId}})
+                .then(()=> res.status(200).json({ message: "like enregistré !"}))
+                .catch(error => res.status(400).json({error: error, message: errorMessage.errorLike }))
+                break;
+                
+            case 0 :
+                if (article.usersDisliked.includes(req.body.userId)) { 
+                    Articles.updateOne({_id: id}, {$inc:{dislikes: -1} ,$pull:{usersDisliked: userId}})
+                    .then(() => res.status(200).json({message:'Dislike retiré !'}))
+                    .catch(error => res.status(400).json({ error: error, message: errorMessage.errorDislike }));
+                }else{
+                    Articles.updateOne({_id: id}, {$inc:{likes: -1} ,$pull:{usersLiked: userId}})
+                    .then(() => res.status(200).json({message:'Like retiré !'}))
+                    .catch(error => res.status(400).json({ error: error, message: errorMessage.errorRemoveLike }));
+                }
+            
+            case -1 :
+                Articles.updateOne({_id: id}, {$inc:{dislikes: +1} ,$push:{usersDisliked: userId}})
+                .then(() => res.status(200).json({message:"Tu n' aime pas l'article' !"}))
+                .catch(error => res.status(400).json({ error: error }));
+                break
+
+            default:
+                break;
+        }
+    })
+}

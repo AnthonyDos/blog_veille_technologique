@@ -7,6 +7,7 @@ const auth = require("../middleware/auth");
 
 //articles
 router.post("/", multer, auth, articleCtrl.createArticle);
+router.post("/:_id/like", auth, articleCtrl.likeArticle);
 router.get("/:_id", articleCtrl.findOneArticle);
 router.get("/", articleCtrl.findAllArticles);
 router.put("/update/:_id", auth, multer, articleCtrl.updateArticle);

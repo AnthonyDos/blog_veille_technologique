@@ -7,6 +7,9 @@ const articleSchema = mongoose.Schema({
     image: { type: String, required: true },
     tag: { type: String, required: true},
     likeCount: { type: Number, default: 0 },
+    dislikes: { type: Number , default: 0},
+    usersLiked: { type: [String] , required: true},
+    usersDisliked: { type: [String], required: true},
     comments:[]
 });
 

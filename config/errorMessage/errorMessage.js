@@ -24,3 +24,8 @@ exports.errorDeleteArticle = "erreur lors de la suppression de l'article";
 
 //error comments
 exports.errorCreateComment = "erreur lors de la création du commentaire !";
+
+//error like
+exports.errorLike = "like non enregistré !";
+exports.errorDislike = "erreur lors du dislike !";
+exports.errorRemoveLike = "erreur lors du retrait du like !";
