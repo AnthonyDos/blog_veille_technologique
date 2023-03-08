@@ -1,6 +1,7 @@
 const Comments = require("../models/Comments");
 const errorMessage = require('../config/errorMessage/errorMessage');
 const Article = require("../models/Articles");
+const { ObjectId } = require("mongodb");
 
 exports.createComment = async(req, res, next) => {
     const { userId,content } = req.body;
@@ -18,3 +19,5 @@ exports.createComment = async(req, res, next) => {
     .then(() => res.status(201).json({message: "commentaire créé !"}))
     .catch(error => res.status(404).json({ error : error, message: errorMessage.errorCreateComment }))
 };
+
+

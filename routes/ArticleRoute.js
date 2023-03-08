@@ -13,7 +13,7 @@ router.put("/update/:_id", auth, multer, articleCtrl.updateArticle);
 router.delete("/delete/:_id", auth, articleCtrl.deleteArticle);
 
 //comments
-router.patch("/:_id/comment/", auth, commentCtrl.createComment);
-router.patch("/:_id/comment/:_id", auth)
+router.post("/:_id/comment/", auth, commentCtrl.createComment);
+
 
 module.exports = router;

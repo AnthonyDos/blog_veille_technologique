@@ -21,9 +21,9 @@ exports.createArticle = ( req, res, next ) => {
 }
 
 exports.findOneArticle = async ( req, res, next ) => {
-    const test = Comments.findById({'article': "64085cb873344f88c331e316"})
+    const test = Comments.findById({'article': req.params._id})
     console.log(test)
-    Articles.findOne({ _id: req.params._id })
+    Articles.findOne({ _id: req.params._id }).populate("comments")
     
     .then( article => res.status(200).json(article))
     .catch(error => res.status(404).json({ error : error, message: errorMessage.errorFindOneArticle + " " + req.params._id }))
