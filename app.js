@@ -8,7 +8,6 @@ const path = require('path')
 const authenticationRoute = require('./routes/AuthenticationRoute');
 const userRoute = require('./routes/UserRoute');
 const articleRoute = require('./routes/ArticleRoute');
-const commentRoute = require('./routes/CommentRoute');
 
 require('dotenv').config();
 
@@ -37,6 +36,6 @@ app.use('/images', express.static(path.join(__dirname,'images')));
 app.use('/api/', authenticationRoute);
 app.use('/api/auth/user', userRoute);
 app.use('/api/article', articleRoute);
-//app.use('/api/comment',commentRoute);
+
 
 module.exports = app;

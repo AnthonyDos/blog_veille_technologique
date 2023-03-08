@@ -21,3 +21,6 @@ exports.errorFindOneArticle = "erreur lors de la récupération de l' article: "
 exports.errorFindAllArticle = "erreur lors de la récupération des articles";
 exports.errorUpdateArticle = "erreur lors de la modification de l'article !";
 exports.errorDeleteArticle = "erreur lors de la suppression de l'article";
+
+//error comments
+exports.errorCreateComment = "erreur lors de la création du commentaire !";

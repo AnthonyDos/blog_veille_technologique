@@ -1,5 +1,6 @@
 const fs = require('fs'); 
 const Articles = require('../models/Articles');
+const Comments = require('../models/Comments');
 const errorMessage = require('../config/errorMessage/errorMessage');
 
 
@@ -19,8 +20,11 @@ exports.createArticle = ( req, res, next ) => {
     .catch(error => res.status(400).json({ error : error, message: errorMessage.errorCreateArticle }))
 }
 
-exports.findOneArticle = ( req, res, next ) => {
+exports.findOneArticle = async ( req, res, next ) => {
+    const test = Comments.findById({'article': "64085cb873344f88c331e316"})
+    console.log(test)
     Articles.findOne({ _id: req.params._id })
+    
     .then( article => res.status(200).json(article))
     .catch(error => res.status(404).json({ error : error, message: errorMessage.errorFindOneArticle + " " + req.params._id }))
 }
@@ -47,7 +51,14 @@ exports.updateArticle = ( req, res, next ) => {
 }
 
 exports.deleteArticle = ( req, res, next ) => {
-    Articles.deleteOne({ _id: req.params._id })
-    .then(() => res.status(200).json({ message: "article supprimé !"}))
-    .catch(error => res.status(400).json({ error: error, message: errorMessage.errorDeleteArticle }))
+    Articles.findOne({ _id: req.params._id })
+    .then( article => {
+        const filename = article.image.split('/images/')[1];
+        fs.unlink(`images/${filename}`,() =>{ 
+            Articles.deleteOne({ _id: req.params._id })
+            .then(() => res.status(200).json({ message: "article supprimé !"}))
+            .catch(error => res.status(400).json({ error: error, message: errorMessage.errorDeleteArticle }))
+        })
+    })
+    .catch(error => res.status(500).json({ error: error, message: errorMessage.errorServer }))
 }

@@ -7,6 +7,7 @@ const articleSchema = mongoose.Schema({
     image: { type: String, required: true },
     tag: { type: String, required: true},
     likeCount: { type: Number, default: 0 },
+    comments:[]
 });
 
-module.exports = mongoose.model('post', articleSchema);
+module.exports = mongoose.model('article', articleSchema);

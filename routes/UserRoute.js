@@ -8,4 +8,6 @@ router.get('/:_id', auth, userCtrl.findOneUser);
 router.put('/update/:_id', auth, userCtrl.updateUser);
 router.delete('/delete/:_id', auth, userCtrl.deleteUser);
 
+
+
 module.exports = router;
