@@ -22,7 +22,8 @@ exports.singup = (req, res, next) => {
             lastName: lastName,
             email: email,
             password: hash,
-            image: req.file.filename,
+            //image: req.file.filename,
+            image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}` ,
             category: category,
         });
         user.save()

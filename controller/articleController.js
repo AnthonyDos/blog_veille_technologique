@@ -2,17 +2,20 @@ const fs = require('fs');
 const Articles = require('../models/Articles');
 const Comments = require('../models/Comments');
 const errorMessage = require('../config/errorMessage/errorMessage');
+const User = require('../models/User');
 
 
-exports.createArticle = ( req, res, next ) => {
+exports.createArticle = async( req, res, next ) => {
     const { userId, name, content, tag } = req.body;
-    
+    const userData = await User.findOne({ _id: userId })
     const newArticle = new Articles({
         userId: userId,
+        user: userData,
         name: name,
         content: content,
-        image: req.file.filename,
-        tag:tag
+        image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+        tag:tag,
+        date: new Date()
     })
 
     newArticle.save()
@@ -21,10 +24,7 @@ exports.createArticle = ( req, res, next ) => {
 }
 
 exports.findOneArticle = async ( req, res, next ) => {
-    const test = Comments.findById({'article': req.params._id})
-    console.log(test)
     Articles.findOne({ _id: req.params._id }).populate("comments")
-    
     .then( article => res.status(200).json(article))
     .catch(error => res.status(404).json({ error : error, message: errorMessage.errorFindOneArticle + " " + req.params._id }))
 }

@@ -5,12 +5,12 @@ const { ObjectId } = require("mongodb");
 
 exports.createComment = async(req, res, next) => {
     const { userId,content } = req.body;
-    const query = { _id: req.params.id };
+    const idArticle = { _id: req.params.id };
     const newComment = new Comments({
-                userId: userId,
-                articleId: query,
-                content: content
-           })
+        userId: userId,
+        articleId: idArticle,
+        content: content
+    })
     const updates = {
         $push: { comments: newComment}
     };
