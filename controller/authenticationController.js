@@ -22,7 +22,6 @@ exports.singup = (req, res, next) => {
             lastName: lastName,
             email: email,
             password: hash,
-            //image: req.file.filename,
             image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}` ,
             category: category,
         });
@@ -62,6 +61,7 @@ exports.login = (req, res, next) => {
             }
             res.status(200).json({
                 userId: user._id,
+                isAdmin: user.isAdmin,
                 token: jwt.sign (
                     { userId: user._id },
                     process.env.JWT_TOKEN,

@@ -2,12 +2,15 @@ const Comments = require("../models/Comments");
 const errorMessage = require('../config/errorMessage/errorMessage');
 const Article = require("../models/Articles");
 const { ObjectId } = require("mongodb");
+const User = require("../models/User");
 
 exports.createComment = async(req, res, next) => {
     const { userId,content } = req.body;
     const idArticle = { _id: req.params.id };
+    const userData = await User.findOne({ _id: userId })
     const newComment = new Comments({
         userId: userId,
+        user: userData,
         articleId: idArticle,
         content: content
     })
