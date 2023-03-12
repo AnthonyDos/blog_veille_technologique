@@ -10,10 +10,13 @@ require('dotenv').config();
 exports.singup = (req, res, next) => {
     
     const { gender, firstName, lastName, email, password, category } = req.body;
-    if (!password.match(REGEX_PASSWORD)) {
-        throw error = res.status(401).json(errorMessage.errorRegexPassword)
-    }
- 
+   // console.log(image)
+    // if (!password.match(REGEX_PASSWORD)) {
+    //     throw error = res.status(401).json(errorMessage.errorRegexPassword)
+    // }
+    console.log(`${req.protocol}://${req.get('host')}/images/${req.file?.filename}`)
+    console.log(req.file?.filename)
+    console.log(req.body)
     bcrypt.hash(password, 10)   
     .then( hash => {     
         const user = new User({
@@ -22,7 +25,7 @@ exports.singup = (req, res, next) => {
             lastName: lastName,
             email: email,
             password: hash,
-            image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}` ,
+            image: `${req.protocol}://${req.get('host')}/images/${req.file?.filename}` ,
             category: category,
         });
         user.save()

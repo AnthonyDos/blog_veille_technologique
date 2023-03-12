@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const unqieValidator = require('mongoose-unique-validator');
 
 const userSchema = mongoose.Schema({
     gender: { type: String, required: true },
@@ -9,6 +8,7 @@ const userSchema = mongoose.Schema({
     password: { type: String, required: true, minLength: 8 },
     image: { type: String, required: true },
     category: { type: String, required: true },
+    numberComment: { type: Number, default: 0},
     isAdmin: { type: Boolean, required: true, default: false } 
 });
 

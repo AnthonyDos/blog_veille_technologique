@@ -1,6 +1,5 @@
 const fs = require('fs'); 
 const Articles = require('../models/Articles');
-const Comments = require('../models/Comments');
 const errorMessage = require('../config/errorMessage/errorMessage');
 const User = require('../models/User');
 
@@ -17,7 +16,7 @@ exports.createArticle = async( req, res, next ) => {
         tag:tag,
         date: new Date()
     })
-
+    await User.updateOne({ _id: userId },{$inc: {numberComment: 1}})
     newArticle.save()
     .then(article => res.status(201).json({ article: article, message: "article enregistré"}))
     .catch(error => res.status(400).json({ error : error, message: errorMessage.errorCreateArticle }))
@@ -30,7 +29,7 @@ exports.findOneArticle = async ( req, res, next ) => {
 }
 
 exports.findAllArticles = ( req, res, next ) => {
-    Articles.find()
+    const article = Articles.find()
     .then(articles => res.status(200).json(articles))
     .catch(error => res.status(404).json({ error : error, message: errorMessage.errorFindAllArticle }))
 }
@@ -68,6 +67,7 @@ exports.likeArticle = (req, res) => {
     const userId = req.body.userId
     Articles.findOne({ _id: id})
     .then(article => {
+        console.log(article)
         switch (req.body.like) {
             case 1:
                 Articles.updateOne({_id: id}, {$inc:{likes: +1} ,$push:{usersLiked: userId}})
@@ -76,7 +76,7 @@ exports.likeArticle = (req, res) => {
                 break;
                 
             case 0 :
-                if (article.usersDisliked.includes(req.body.userId)) { 
+                if (article.usersDisliked.includes(userId)) { 
                     Articles.updateOne({_id: id}, {$inc:{dislikes: -1} ,$pull:{usersDisliked: userId}})
                     .then(() => res.status(200).json({message:'Dislike retiré !'}))
                     .catch(error => res.status(400).json({ error: error, message: errorMessage.errorDislike }));
@@ -91,9 +91,7 @@ exports.likeArticle = (req, res) => {
                 .then(() => res.status(200).json({message:"Tu n' aime pas l'article' !"}))
                 .catch(error => res.status(400).json({ error: error }));
                 break
-
-            default:
-                break;
         }
     })
+    .catch(error => res.status(500).json({ error: error, message: errorMessage.errorServer }))
 }
